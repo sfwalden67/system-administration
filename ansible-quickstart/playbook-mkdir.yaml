@@ -1,0 +1,10 @@
+---
+- name: Create a directory in a specific user's home directory
+  hosts: all
+  # become: true  # Optional, if needed
+  tasks:
+    - name: Create directory inside the specified user's home directory
+      ansible.builtin.file:
+        path: "/home/{{ ansible_user }}/myansible"  # Assuming the user's home is /home/username
+        state: directory
+        mode: '0755'

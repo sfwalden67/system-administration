@@ -1,0 +1,46 @@
+---
+- name: Install LAMP stack on Raspberry Pi
+  hosts: pi
+  become: yes
+  tasks:
+    - name: Update apt repository
+      apt:
+        update_cache: yes
+
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Install MySQL
+      apt:
+        name: mariadb-server
+        state: present
+
+    - name: Install PHP and Aapache modules
+      apt:
+        name:
+          - php
+          - libapache2-mod-php
+          - php-mysql
+        state: present
+
+    - name: Start Apache service
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Start MySQL service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Create a test PHP file
+      copy:
+        dest: /var/www/html/info.php
+        content: |
+          <?php
+          phpinfo();
+          ?>
